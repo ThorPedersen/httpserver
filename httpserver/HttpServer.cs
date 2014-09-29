@@ -14,19 +14,24 @@ namespace httpserver
         //public static readonly int DefaultPort = 8888;
         public void StartServer()
         {
-            string name = "localhost";
-            IPAddress[] addrs = Dns.GetHostEntry(name).AddressList;
-            
-            TcpListener serverSocket = new TcpListener(8888);
+           TcpListener serverSocket = new TcpListener(8888);
             serverSocket.Start();
 
             while (true)
             {
-                TcpClient connectionSocket = serverSocket.AcceptTcpClient();
-                Console.WriteLine("Server is activated");
-                HttpService service = new HttpService(connectionSocket);
+                TcpClient connectionSocket = null;
+                try
+                {
+                    connectionSocket = serverSocket.AcceptTcpClient();
+                    Console.WriteLine("Server is activated");
+                    HttpService service = new HttpService(connectionSocket);
 
-                Task.Run(() => service.SocketHandler());
+                    Task.Run(() => service.SocketHandler());
+                }
+                finally
+                {
+                    connectionSocket.Close();
+                }
                 
             }
         }
