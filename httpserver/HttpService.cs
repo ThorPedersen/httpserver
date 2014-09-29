@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace httpserver
 {
-    class HttpService
+    public class HttpService
     {
         private TcpClient connectionSocket;
 
@@ -18,7 +18,7 @@ namespace httpserver
             // TODO: Complete member initialization
             this.connectionSocket = connectionSocket;
         }
-        internal void SocketHandler()
+        public void SocketHandler()
             {
             Stream ns = connectionSocket.GetStream();
             StreamReader sr = new StreamReader(ns);
