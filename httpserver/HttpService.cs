@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -44,9 +45,12 @@ namespace httpserver
          //{
          sw.WriteLine(message);
 
+         string uritext = null;
+         string[] words = message.Split(' ');
 
+         uritext = words[1].ToString(CultureInfo.InvariantCulture);
 
-         sw.WriteLine("You requested " + message);
+         sw.WriteLine("You requested " + uritext);
          //}
 
          //string path = "someFile.html";
