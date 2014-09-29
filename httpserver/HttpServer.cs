@@ -11,10 +11,10 @@ namespace httpserver
 {
    public class HttpServer
    {
-      //public static readonly int DefaultPort = 8888;
+      public static readonly int DefaultPort = 8888;
       public void StartServer()
       {
-         TcpListener serverSocket = new TcpListener(8888);
+         TcpListener serverSocket = new TcpListener(DefaultPort);
          serverSocket.Start();
 
          while (true)

@@ -12,11 +12,12 @@ namespace httpserver
        /// Evt make a class for logging
        /// </summary>
        /// <param name="args"></param>
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello http server");
-            HttpServer _httpServer = new HttpServer();
-            _httpServer.StartServer();
+            HttpServer httpServer = new HttpServer();
+            httpServer.StartServer();
         }
     }
 }
