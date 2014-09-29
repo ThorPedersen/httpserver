@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace httpserver
 {
    class HttpService
    {
       private TcpClient connectionSocket;
-
-
       public HttpService(TcpClient connectionSocket)
       {
          // TODO: Complete member initialization
@@ -21,12 +21,12 @@ namespace httpserver
       public void SocketHandler()
       {
          Stream ns = connectionSocket.GetStream();
+
          StreamReader sr = new StreamReader(ns);
          StreamWriter sw = new StreamWriter(ns);
          sw.AutoFlush = true; // enable automatic flushing
 
-         //string message = sr.ReadLine();
-         //string answer;
+         string message = sr.ReadLine();
 
          //while (!string.IsNullOrEmpty(message))
          //{
@@ -36,11 +36,32 @@ namespace httpserver
          //   message = sr.ReadLine();
 
          //}
+         //request.getRequestURI().substring(request.getContextPath().length())
 
-         string headerMessage = sr.ReadLine();
-         sw.WriteLine(headerMessage);
+         //string[] words = message.Split(' ');
+
+         //foreach (string word in words)
+         //{
+         sw.WriteLine(message);
 
 
+
+         sw.WriteLine("You requested " + message);
+         //}
+
+         //string path = "someFile.html";
+
+         //string headerMessage = sr.ReadLine();
+         //sw.WriteLine(headerMessage);
+
+         //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.stackoverflow.com");
+         //request.Method = "GET";
+         //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+         //sw.WriteLine(response.Headers);
+
+         //sr.Close();
+         //sw.Close();
+         //ns.Close();
 
          //string message1 = "You requested ";
          //sw.WriteLine(message1);
