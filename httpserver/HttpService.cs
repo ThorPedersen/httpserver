@@ -8,38 +8,35 @@ using System.Threading.Tasks;
 
 namespace httpserver
 {
-    public class HttpServer
+    class HttpService
     {
-        //public static readonly int DefaultPort = 8888;
-        public void StartServer()
+        private TcpClient connectionSocket;
+
+
+       public HttpService(TcpClient connectionSocket)
         {
-            TcpListener serverSocket = new TcpListener(6789);
-            serverSocket.Start();
-
-            TcpClient connectionSocket = serverSocket.AcceptTcpClient();
-            Console.WriteLine("Server activated");
-
+            // TODO: Complete member initialization
+            this.connectionSocket = connectionSocket;
+        }
+        internal void SocketHandler()
+            {
             Stream ns = connectionSocket.GetStream();
             StreamReader sr = new StreamReader(ns);
             StreamWriter sw = new StreamWriter(ns);
             sw.AutoFlush = true; // enable automatic flushing
 
             string message = sr.ReadLine();
-            string answer = "";
+            string answer;
             while (message != null && message != "")
             {
-
                 Console.WriteLine("Client: " + message);
                 answer = message.ToUpper();
                 sw.WriteLine(answer);
                 message = sr.ReadLine();
 
             }
-
-            ns.Close();
+            
             connectionSocket.Close();
-            serverSocket.Stop();
-
         }
     }
 }
