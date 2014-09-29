@@ -8,6 +8,10 @@ namespace httpserver
 {
     class Program
     {
+       /// <summary>
+       /// Evt make a class for logging
+       /// </summary>
+       /// <param name="args"></param>
         static void Main(string[] args)
         {
             Console.WriteLine("Hello http server");
