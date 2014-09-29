@@ -14,6 +14,8 @@ namespace httpserver
    class HttpService
    {
       private TcpClient connectionSocket;
+      private static readonly string RootCatalog = "c:/temp";
+
       public HttpService(TcpClient connectionSocket)
       {
          // TODO: Complete member initialization
@@ -29,51 +31,34 @@ namespace httpserver
 
          string message = sr.ReadLine();
 
-         //while (!string.IsNullOrEmpty(message))
-         //{
-         //   Console.WriteLine("Client: " + message);
-         //   answer = message.ToUpper();
-         //   sw.WriteLine(answer);
-         //   message = sr.ReadLine();
-
-         //}
-         //request.getRequestURI().substring(request.getContextPath().length())
-
-         //string[] words = message.Split(' ');
-
-         //foreach (string word in words)
-         //{
          sw.WriteLine(message);
 
          string uritext = null;
          string[] words = message.Split(' ');
 
-         uritext = words[1].ToString(CultureInfo.InvariantCulture);
+         uritext = words[1].Replace("/", "/");
 
          sw.WriteLine("You requested " + uritext);
+
+
+
+         ///////////
+         string[] lines = System.IO.File.ReadAllLines(RootCatalog + uritext + ".txt");
+
+         
+         //FileStream fileStream = new FileStream(RootCatalog + uritext, FileMode.Open);
+         foreach (string line in lines)
+         {
+            // Use a tab to indent each line of the file.
+            sw.WriteLine("\t" + line);
+         }
+         //foreach (var lines in file)
+         //{
+         //   sw.WriteLine((string) lines);
          //}
 
-         //string path = "someFile.html";
-
-         //string headerMessage = sr.ReadLine();
-         //sw.WriteLine(headerMessage);
-
-         //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://www.stackoverflow.com");
-         //request.Method = "GET";
-         //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-         //sw.WriteLine(response.Headers);
-
-         //sr.Close();
-         //sw.Close();
-         //ns.Close();
-
-         //string message1 = "You requested ";
-         //sw.WriteLine(message1);
-         //message = message.ToUpper();
-
-         //sw.WriteLine(message1);
-         //message1 = sr.ReadLine();
-
+         //fileStream.Close();
+         //////////
          connectionSocket.Close();
       }
    }
