@@ -9,31 +9,30 @@ using System.Threading.Tasks;
 
 namespace httpserver
 {
-    public class HttpServer
-    {
-        //public static readonly int DefaultPort = 8888;
-        public void StartServer()
-        {
-           TcpListener serverSocket = new TcpListener(8888);
-            serverSocket.Start();
+   public class HttpServer
+   {
+      //public static readonly int DefaultPort = 8888;
+      public void StartServer()
+      {
+         TcpListener serverSocket = new TcpListener(8888);
+         serverSocket.Start();
 
-            while (true)
+         while (true)
+         {
+            TcpClient connectionSocket = null;
+            using (connectionSocket)
             {
-                TcpClient connectionSocket = null;
-                try
-                {
-                    connectionSocket = serverSocket.AcceptTcpClient();
-                    Console.WriteLine("Server is activated");
-                    HttpService service = new HttpService(connectionSocket);
+               connectionSocket = serverSocket.AcceptTcpClient();
+               Console.WriteLine("Server is activated");
+               var service = new HttpService(connectionSocket);
 
-                    Task.Run(() => service.SocketHandler());
-                }
-                finally
-                {
-                    connectionSocket.Close();
-                }
-                
+               Task.Run(() => service.SocketHandler());
             }
-        }
-    }
+            
+
+            //connectionSocket.Close();
+
+         }
+      }
+   }
 }

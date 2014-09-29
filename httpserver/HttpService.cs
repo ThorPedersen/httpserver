@@ -8,36 +8,36 @@ using System.Threading.Tasks;
 
 namespace httpserver
 {
-    class HttpService
-    {
-        private TcpClient connectionSocket;
+   class HttpService
+   {
+      private TcpClient connectionSocket;
 
 
-       public HttpService(TcpClient connectionSocket)
-        {
-            // TODO: Complete member initialization
-            this.connectionSocket = connectionSocket;
-        }
-        internal void SocketHandler()
-            {
-            Stream ns = connectionSocket.GetStream();
-            StreamReader sr = new StreamReader(ns);
-            StreamWriter sw = new StreamWriter(ns);
-            sw.AutoFlush = true; // enable automatic flushing
+      public HttpService(TcpClient connectionSocket)
+      {
+         // TODO: Complete member initialization
+         this.connectionSocket = connectionSocket;
+      }
+      public void SocketHandler()
+      {
+         Stream ns = connectionSocket.GetStream();
+         StreamReader sr = new StreamReader(ns);
+         StreamWriter sw = new StreamWriter(ns);
+         sw.AutoFlush = true; // enable automatic flushing
 
-            string message = sr.ReadLine();
-            string answer;
-            
-            while (message != null && message != "")
-            {
-                Console.WriteLine("Client: " + message);
-                answer = message.ToUpper();
-                sw.WriteLine(answer);
-                message = sr.ReadLine();
+         string message = sr.ReadLine();
+         string answer;
 
-            }
-            
-            //connectionSocket.Close();
-        }
-    }
+         while (message != null && message != "")
+         {
+            Console.WriteLine("Client: " + message);
+            answer = message.ToUpper();
+            sw.WriteLine(answer);
+            message = sr.ReadLine();
+
+         }
+
+         connectionSocket.Close();
+      }
+   }
 }
