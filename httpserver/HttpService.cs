@@ -11,14 +11,15 @@ using System.Web;
 
 namespace httpserver
 {
-   class HttpService
+   public class HttpService
    {
       private TcpClient connectionSocket;
       private static readonly string RootCatalog = "c:/temp";
 
+      string Roottext { get; set; }
+
       public HttpService(TcpClient connectionSocket)
       {
-         // TODO: Complete member initialization
          this.connectionSocket = connectionSocket;
       }
       public void SocketHandler()
@@ -33,32 +34,52 @@ namespace httpserver
 
          sw.WriteLine(message);
 
-         string uritext = null;
+         string uritext = "";
          string[] words = message.Split(' ');
 
          uritext = words[1].Replace("/", "/");
 
          sw.WriteLine("You requested " + uritext);
 
-
+         uritext = uritext + ".txt";
 
          ///////////
-         string[] lines = System.IO.File.ReadAllLines(RootCatalog + uritext + ".txt");
+         //string filepath = RootCatalog + uritext;
 
+         //if (!File.Exists(filepath))
+         //{
+         //   using (FileStream fs = File.Create(filepath))
+         //   {
+         //      for (byte i = 0; i < 100; i++)
+         //      {
+         //         fs.WriteByte(i);
+         //      }
+         //      string[] txtlines = { "First line", "Second line", "Third line" };
+         //      File.WriteAllLines(filepath, txtlines);
+         //   }
+         //}
+         //else
+         //{
+         //   Console.WriteLine("File \"{0}\" already exists.", uritext);
+         //   return;
+         //}
+         Roottext = RootCatalog + uritext;
+
+         if (Roottext == "c:/temp/favicon.ico.txt")
+         {
+            Roottext = "c:/temp/filename.html.txt";
+         }
+
+         string[] lines = File.ReadAllLines(Roottext);       
          
-         //FileStream fileStream = new FileStream(RootCatalog + uritext, FileMode.Open);
          foreach (string line in lines)
          {
-            // Use a tab to indent each line of the file.
+            
             sw.WriteLine("\t" + line);
          }
-         //foreach (var lines in file)
-         //{
-         //   sw.WriteLine((string) lines);
-         //}
 
-         //fileStream.Close();
-         //////////
+         sr.Close();
+         sw.Close();
          connectionSocket.Close();
       }
    }
