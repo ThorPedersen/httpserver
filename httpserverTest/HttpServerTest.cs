@@ -15,13 +15,12 @@ namespace httpserverTest
       [TestMethod]
       public void TestGet()
       {
-         String line = GetFirstLine("GET /file.txt HTTP/1.0");
+         String line = GetFirstLine("GET /file.html HTTP/1.0");
          Assert.AreEqual("HTTP/1.0 200 OK", line);
 
          line = GetFirstLine("GET /fileDoesNotExist.txt HTTP/1.0");
          Assert.AreEqual("HTTP/1.0 404 Not Found", line);
       }
-
 
       [TestMethod]
       public void TestGetIllegalRequest()
@@ -56,7 +55,7 @@ namespace httpserverTest
       /// </summary>
       /// <param name="request"></param>
       /// <returns></returns>
-      private static String GetFirstLine(String request)
+      private String GetFirstLine(String request)
       {
          TcpClient client = new TcpClient("localhost", HttpServer.DefaultPort);
          NetworkStream networkStream = client.GetStream();

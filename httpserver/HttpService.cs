@@ -13,6 +13,7 @@ namespace httpserver
 {
    public class HttpService
    {
+      
       private TcpClient connectionSocket;
       private static readonly string RootCatalog = "c:/temp";
 
@@ -31,19 +32,29 @@ namespace httpserver
          sw.AutoFlush = true; // enable automatic flushing
 
          string message = sr.ReadLine();
+         Console.WriteLine(message);
+
+         //sw.WriteLine(sr.ReadLine());
+         //sw.WriteLine(message);
 
          string uritext = "";
          string[] words = message.Split(' ');
 
          uritext = words[1].Replace("/", "/");
 
-         sw.WriteLine("You requested " + uritext + "<br>");
+         //sw.WriteLine("You requested " + uritext + "<br>");
+         
 
          uritext = uritext + ".txt";
+         string code = "200 OK";
 
-         string filepath = RootCatalog + uritext;
-        
          Roottext = RootCatalog + uritext;
+         if (!File.Exists(Roottext))
+         {
+            code = "404 Not Found";
+         }
+         //TESTGET
+         sw.WriteLine(words[2] + " " + code);
 
          string[] lines = File.ReadAllLines(Roottext);
 
