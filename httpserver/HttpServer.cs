@@ -28,7 +28,6 @@ namespace httpserver
 
                Task.Run(() => service.SocketHandler());
             }
-            //connectionSocket.Close();
          }
       }
    }
