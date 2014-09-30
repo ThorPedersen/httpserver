@@ -16,14 +16,14 @@ namespace httpserver
       {
          TcpListener serverSocket = new TcpListener(DefaultPort);
          serverSocket.Start();
-
+         Console.WriteLine("Server is activated");
          while (true)
          {
             TcpClient connectionSocket = null;
             using (connectionSocket)
             {
                connectionSocket = serverSocket.AcceptTcpClient();
-               Console.WriteLine("Server is activated");
+               
                var service = new HttpService(connectionSocket);
 
                Task.Run(() => service.SocketHandler());

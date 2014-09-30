@@ -11,14 +11,14 @@ using System.Web;
 
 namespace httpserver
 {
-   public class HttpService
+   public class TestServer
    {
       private TcpClient connectionSocket;
       private static readonly string RootCatalog = "c:/temp";
 
       string Roottext { get; set; }
 
-      public HttpService(TcpClient connectionSocket)
+      public TestServer(TcpClient connectionSocket)
       {
          this.connectionSocket = connectionSocket;
       }
@@ -31,55 +31,32 @@ namespace httpserver
          sw.AutoFlush = true; // enable automatic flushing
 
          string message = sr.ReadLine();
-         Console.WriteLine(message);
+         sw.WriteLine(message);
 
          string uritext = "";
          string[] words = message.Split(' ');
-
-         string get = words[0];
 
          uritext = words[1].Replace("/", "/");
 
          //sw.WriteLine("You requested " + uritext + "<br>");
 
-         uritext = uritext + ".txt";
-         Roottext = RootCatalog + uritext;
-
-
-
          //TESTGET
+         uritext = uritext + ".txt";
          string code = "200 OK";
-         string illegalrequest = "400 Illegal request";
-         string illegalmethod = "400 Illegal request";
-         string illegalprotocol = "400 Illegal protocol";
-         const string http10 = "HTTP/1.0";
 
-         
-
-         
-
+         Roottext = RootCatalog + uritext;
          if (!File.Exists(Roottext))
          {
             code = "404 Not Found";
          }
+         sw.WriteLine(words[2] + " " + code);
 
-         //Console.WriteLine(http10 + " " + illegalprotocol + " Slut");
-         //TESTGET
-         //TESTGETILLEGALMETHODNAME
-         //TESTGETILLEGALMETHODNAME
-         if (words[0] == "GET")
-            if (words[2] == "HTTP/1.0")
-            {
-               sw.WriteLine(words[2] + " " + code);
-            }
-            else
-            {
-               sw.WriteLine(http10 + " " + illegalprotocol);
-            }
+         //END TESTGET
+         //uritext = uritext + ".txt";
 
-         if (words[0] == "PLET")
-            sw.WriteLine(words[2] + " " + illegalmethod);
-            
+         //string filepath = RootCatalog + uritext;
+
+         //Roottext = RootCatalog + uritext;
 
          //string[] lines = File.ReadAllLines(Roottext);
 
