@@ -24,17 +24,20 @@ namespace httpserver
       }
       public void SocketHandler()
       {
-         Stream ns = connectionSocket.GetStream();
+          //creates a Stream for the client to read from and write to
+          Stream ns = connectionSocket.GetStream();
 
-         StreamReader sr = new StreamReader(ns);
-         StreamWriter sw = new StreamWriter(ns);
-         sw.AutoFlush = true; // enable automatic flushing
+          StreamReader sr = new StreamReader(ns);
+          StreamWriter sw = new StreamWriter(ns);
+          sw.AutoFlush = true; // enable automatic flushing
 
-         string message = sr.ReadLine();
-         Console.WriteLine(message);
+          //input form the stream to another format
+          string message = sr.ReadLine();
+          Console.WriteLine(message);
 
-         string uritext = "";
-         string[] words = message.Split(' ');
+          string uritext = "";
+          //Puts the stream into an array
+          string[] words = message.Split(' ');
 
          string get = words[0];
 
@@ -55,13 +58,14 @@ namespace httpserver
          const string testMethodNotImplemented = "200 xxx";
          const string http10 = "HTTP/1.0";
 
-         
 
-         
 
+
+
+         //If the file does not exist return error 404 Not Found
          if (!File.Exists(Roottext))
          {
-            code = "404 Not Found";
+             code = "404 Not Found";
          }
 
          if (words[0] == "GET")

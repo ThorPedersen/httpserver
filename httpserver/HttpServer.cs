@@ -14,10 +14,13 @@ namespace httpserver
       public static readonly int DefaultPort = 8888;
       public void StartServer()
       {
-         TcpListener serverSocket = new TcpListener(DefaultPort);
-         serverSocket.Start();
-         Console.WriteLine("Server is activated");
-         while (true)
+          //creates a server socket/listner/ server startup message using port 8888
+          TcpListener serverSocket = new TcpListener(DefaultPort);
+          serverSocket.Start();
+          Console.WriteLine("Server is activated");
+
+          //Server stays open
+          while (true)
          {
             TcpClient connectionSocket = null;
             using (connectionSocket)
