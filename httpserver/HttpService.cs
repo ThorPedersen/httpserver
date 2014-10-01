@@ -49,9 +49,10 @@ namespace httpserver
 
          //TESTGET
          string code = "200 OK";
-         string illegalrequest = "400 Illegal request";
-         string illegalmethod = "400 Illegal request";
-         string illegalprotocol = "400 Illegal protocol";
+         const string illegalRequest = "400 Illegal request";
+         const string illegalMethod = "400 Illegal request";
+         const string illegalProtocol = "400 Illegal protocol";
+         const string testMethodNotImplemented = "200 xxx";
          const string http10 = "HTTP/1.0";
 
          
@@ -63,10 +64,6 @@ namespace httpserver
             code = "404 Not Found";
          }
 
-         //Console.WriteLine(http10 + " " + illegalprotocol + " Slut");
-         //TESTGET
-         //TESTGETILLEGALMETHODNAME
-         //TESTGETILLEGALMETHODNAME
          if (words[0] == "GET")
             if (words[2] == "HTTP/1.0")
             {
@@ -74,12 +71,21 @@ namespace httpserver
             }
             else
             {
-               sw.WriteLine(http10 + " " + illegalprotocol);
+               if(words[2].Contains("/"))
+               { 
+               sw.WriteLine(http10 + " " + illegalProtocol);
+               }
+               else
+               {
+                  sw.WriteLine(http10 + " " + illegalRequest);
+               }
             }
 
          if (words[0] == "PLET")
-            sw.WriteLine(words[2] + " " + illegalmethod);
+            sw.WriteLine(words[2] + " " + illegalMethod);
             
+         if(words[0] == "POST")
+            sw.WriteLine(words[2] + " " + testMethodNotImplemented);
 
          //string[] lines = File.ReadAllLines(Roottext);
 
