@@ -39,17 +39,13 @@ namespace httpserver
           //Puts the stream into an array
           string[] words = message.Split(' ');
 
-         string get = words[0];
-
          uritext = words[1].Replace("/", "/");
 
          //sw.WriteLine("You requested " + uritext + "<br>");
 
          uritext = uritext + ".txt";
          Roottext = RootCatalog + uritext;
-
-
-
+          
          //TESTGET
          string code = "200 OK";
          const string illegalRequest = "400 Illegal request";
@@ -57,11 +53,7 @@ namespace httpserver
          const string illegalProtocol = "400 Illegal protocol";
          const string testMethodNotImplemented = "200 xxx";
          const string http10 = "HTTP/1.0";
-
-
-
-
-
+          
          //If the file does not exist return error 404 Not Found
          if (!File.Exists(Roottext))
          {

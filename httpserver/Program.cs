@@ -16,7 +16,7 @@ namespace httpserver
         static void Main(string[] args)
         {
             HttpServer httpServer = new HttpServer();
-            httpServer.StartServer();
+            Parallel.Invoke(httpServer.StartServer);
         }
     }
 }
