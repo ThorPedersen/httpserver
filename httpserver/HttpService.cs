@@ -62,6 +62,7 @@ namespace httpserver
          if (!File.Exists(Roottext))
          {
             code = "404 Not Found";
+             sw.WriteLine(http10 + " " + code);
          }
          else
          {
@@ -100,7 +101,7 @@ namespace httpserver
 
          sr.Close();
          sw.Close();
-         connectionSocket.Close()
+          connectionSocket.Close();
          _Log.WriteEntry("Server response: ", EventLogEntryType.Information, 3);
 
           
