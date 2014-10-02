@@ -42,12 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentType.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="HttpService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HttpServiceTest.cs" />
-    <Compile Include="StatusHandling.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

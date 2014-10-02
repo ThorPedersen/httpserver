@@ -18,16 +18,22 @@ namespace httpserver
       private static readonly string RootCatalog = "c:/temp";
       readonly EventLog _Log = new EventLog();
       
+      
       string Roottext { get; set; }
-
-      public HttpService(TcpClient connectionSocket)
+       private Stream ns;
+       public HttpService(TcpClient connectionSocket)
       {
          this.connectionSocket = connectionSocket;
+         ns = connectionSocket.GetStream();
       }
+
+       
+       
+
       public void SocketHandler()
       {
           //creates a Stream for the client to read from and write to
-         Stream ns = connectionSocket.GetStream();
+         //Stream ns = connectionSocket.GetStream();
 
          StreamReader sr = new StreamReader(ns);
          StreamWriter sw = new StreamWriter(ns);
@@ -43,71 +49,84 @@ namespace httpserver
 
          string uritext = "";
          //Puts the stream into an array
-         string[] words = message.Split(' ');
+          if (message != null)
+          {
+              string[] words = message.Split(' ');
 
-         uritext = words[1].Replace("/", "/");
+              //uritext = words[1].Replace("/", "/");
+              uritext = words[1].Replace("/", "\\");
+              //TESTGET
+              string code = "200 OK";
+              const string illegalRequest = "400 Illegal request";
+              const string illegalMethod = "400 Illegal request";
+              const string illegalProtocol = "400 Illegal protocol";
+              const string testMethodNotImplemented = "200 xxx";
+              const string http10 = "HTTP/1.0";
 
-         //TESTGET
-         string code = "200 OK";
-         const string illegalRequest = "400 Illegal request";
-         const string illegalMethod = "400 Illegal request";
-         const string illegalProtocol = "400 Illegal protocol";
-         const string testMethodNotImplemented = "200 xxx";
-         const string http10 = "HTTP/1.0";
+              Roottext = RootCatalog + uritext;
+              string extensions = Path.GetExtension(Roottext);
+              ContentType cType = new ContentType(extensions);
+              FileInfo fInfo = new FileInfo(Roottext);
+          
 
-         Roottext = RootCatalog + uritext;
+              //If the file does not exist return error 404 Not Found
 
-         //If the file does not exist return error 404 Not Found
-
-         if (!File.Exists(Roottext))
-         {
-            code = "404 Not Found";
-             sw.WriteLine(http10 + " " + code);
-         }
-         else
-         {
-            if (words[0] == "GET")
-            {
-               if (words[2] == "HTTP/1.0" || words[2] == "HTTP/1.1")
-               {
+              if (!File.Exists(Roottext))
+              {
+                  code = "404 Not Found";
                   sw.WriteLine(http10 + " " + code);
-               }
-               else
-               {
-                  if (words[2].Contains("/"))
+              }
+              else
+              {
+                  if (words[0] == "GET")
                   {
-                     sw.WriteLine(http10 + " " + illegalProtocol);
+                      if (words[2] == "HTTP/1.0" || words[2] == "HTTP/1.1")
+                      {
+                          sw.WriteLine(http10 + " " + code);
+                          var fInfo2 = fInfo.Length;
+                          Console.WriteLine("Content-Length:" + fInfo2);
+                      }
+                      else
+                      {
+                          if (words[2].Contains("/"))
+                          {
+                              sw.WriteLine(http10 + " " + illegalProtocol);
+                          }
+                          else
+                          {
+                              sw.WriteLine(http10 + " " + illegalRequest);
+                          }
+                      }
                   }
-                  else
+                  if (words[0] == "POST")
+                      sw.WriteLine(words[2] + " " + testMethodNotImplemented);
+
+                  if (words[0] != "POST" || words[0] != "GET")
+                      sw.WriteLine(words[2] + " " + illegalMethod);
+
+                  //UNIT TEST
+                  string[] lines = File.ReadAllLines(Roottext);
+
+                  sw.WriteLine("You requested " + uritext);
+                  foreach (string line in lines)
                   {
-                     sw.WriteLine(http10 + " " + illegalRequest);
+                      sw.WriteLine("\t" + line);
                   }
-               }
-            }
-            if (words[0] == "PLET")
-               sw.WriteLine(words[2] + " " + illegalMethod);
+              }
+              string date = DateTime.Today.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+              Console.WriteLine(date);
+              Console.WriteLine(cType.Exstensiontype());
+          }
 
-            if (words[0] == "POST")
-               sw.WriteLine(words[2] + " " + testMethodNotImplemented);
-            //UNIT TEST
-         }
-         sw.WriteLine("You requested " + uritext);
-         
-         string[] lines = File.ReadAllLines(Roottext);
-         foreach (string line in lines)
-         {
-            sw.WriteLine("\t" + line);
-         }
-
-         sr.Close();
+          sr.Close();
          sw.Close();
           connectionSocket.Close();
          _Log.WriteEntry("Server response: ", EventLogEntryType.Information, 3);
 
           
       }
-        
-      
+
+       
 
        
    }
